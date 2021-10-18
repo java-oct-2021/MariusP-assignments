@@ -1,0 +1,20 @@
+@charset "ISO-8859-1";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#header {
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	display: flex;
+	vertical-align:center;
+	justify-content: space-evenly;
+}
+
+
+h1  {
+	color: blue;
+}
