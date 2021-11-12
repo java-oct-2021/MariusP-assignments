@@ -13,6 +13,9 @@
 <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
 </head>
 <body>
+	<a href = "/logout">Logout</a>
+	<br>
+	<br>
 	<h1>Welcome, <c:out value = "${person.firstname}" /></h1>
 	<h3>Here are some of the events in your state:</h3>
 	<table class = "table table-bordered">
@@ -27,13 +30,27 @@
     </thead>
     <tbody>
      	<c:forEach items="${allevents}" var="oneevent">    
-    	<tr>
-    		<td><c:out value="${oneevent.eventname}"/></td>
-    		<td><c:out value="${oneevent.eventdate}"/></td>
-    		<td><c:out value="${oneevent.eventcity} ${oneevent.eventstate}"/></td>
-    		<td><c:out value = "${person.firstname}"/></td>
-    		<td></td>
-    	</tr>
+	    	<tr>
+	    		<c:if test = "${person.state == oneevent.eventstate}">
+		    		<td><a href = "/event/${oneevent.id}"><c:out value="${oneevent.eventname}"/></a></td>
+		    		<td><c:out value="${oneevent.eventdate}"/></td>
+		    		<td><c:out value="${oneevent.eventcity} ${oneevent.eventstate}"/></td>
+		    		<td><c:out value = "${person.firstname}"/></td>
+		    	
+	    			<td>
+		    			<c:choose>
+			    			<c:when test = "${person.firstname == oneevent.person.firstname}">
+				    			<a href = "event/edit/${oneevent.id}">Edit</a>
+					    		<a href = "event/delete/${oneevent.id}">Delete</a>
+					    	</c:when>
+					    	<c:otherwise>
+					    		<a href = "event/join/${oneevent.id}">Join</a>
+					    		<a href = "event/cancel/${oneevent.id}">Cancel</a>
+					    	</c:otherwise>
+					    </c:choose>
+	    			</td>
+	    		</c:if>
+	    	</tr>
     	</c:forEach>
     </tbody>
     </table>
@@ -50,14 +67,26 @@
         </tr>
     </thead>
     <tbody>
-    	
+    	<c:forEach items="${allevents}" var="outsideevent">    
+    	<c:if test = "${person.state != outsideevent.eventstate}">
     	<tr>
-    		<td></td>
-    		<td></td>
-    		<td></td>
-    		<td></td>
-    		<td></td>
+    		<td><a href = "/event/${outsideevent.id}"><c:out value="${outsideevent.eventname}"/></a></td>
+    		<td><c:out value="${outsideevent.eventdate}"/></td>
+    		<td><c:out value="${outsideevent.eventcity} ${outsideevent.eventstate}"/></td>
+    		<td><c:out value="${outsideevent.person.firstname}"/></td>
+    		<td>
+    			<c:choose>
+    				<c:when test = "${outsideevent.persons.contains(person)}">
+    					<a href = "/event/cancel/${outsideevent.id}">Cancel</a>
+    				</c:when>
+    				<c:otherwise>	
+			    		<a href = "/event/join/${outsideevent.id}">Join</a>
+			    	</c:otherwise>
+			    </c:choose>
+    		</td>
     	</tr>
+    	</c:if>
+    	</c:forEach>
     </tbody>
     </table>
     <br>
@@ -70,7 +99,7 @@
         <p>
             <form:label path="eventdate">Date:</form:label>
             <form:errors class = "text-danger" path = "eventdate"/>
-            <form:input type="text" path="eventdate"/>
+            <form:input type="date" path="eventdate"/>
         </p>
         <p>
             <form:label path="eventcity">Location:</form:label>

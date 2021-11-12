@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.MariusPaulikas.BeltReview.Models.Discussion;
 import com.MariusPaulikas.BeltReview.Models.Event;
 import com.MariusPaulikas.BeltReview.Models.Person;
 import com.MariusPaulikas.BeltReview.Repositories.EventRepository;
@@ -43,14 +44,17 @@ public class EventService {
 //	}
 //	
 	
-	public Event updateEvent (Long id, String name, Date date, String city, String state) {
+	public void updateEvent (Long id, String name, Date date, String city, String state) {
 		Event event = getOneEvent(id);
 		event.setEventname(name);
 		event.setEventdate(date);
 		event.setEventcity(city);
 		event.setEventstate(state);
-		return eventrepository.save(event);
+		eventrepository.save(event);
 	}
+	
+	
+	
 	
 	
 	public Event findEvents(Long id) {
@@ -63,16 +67,30 @@ public class EventService {
 		
 	}
 	
-//	
-//	public Event AddPerson (Person p, Event e) {
-//		List<Person> mypersons = e.getPeople();
-//		mypersons.add(p);
-//		return eventrepository.save(e);
-//		
-//		
-//	}
-//	
 	
+	public Event AddPerson (Person p, Event e) {
+		List<Person> mypersons = e.getPeople();
+		mypersons.add(p);
+		return eventrepository.save(e);
+		
+		
+	}
+	
+	public Event SubtractPerson (Person p, Event e) {
+		List<Person> mypersons = e.getPeople();
+		mypersons.remove(p);
+		return eventrepository.save(e);
+		
+		
+	}
+
+	public Event addDiscussion(Discussion discussion, Event e) {
+		List<Discussion> mydiscussions = e.getDiscussions();
+		mydiscussions.add(discussion);
+		return eventrepository.save(e);
+		
+	}
+
 	
 	
 }

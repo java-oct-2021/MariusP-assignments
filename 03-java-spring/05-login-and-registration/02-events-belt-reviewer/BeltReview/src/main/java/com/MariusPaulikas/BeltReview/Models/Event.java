@@ -12,9 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 
 @Entity
@@ -30,6 +32,7 @@ public class Event {
 	private String eventname;
 	
 	@NonNull
+	@DateTimeFormat(pattern="yyyy-mm-dd")
 	private Date eventdate;
 	
 	@NonNull
@@ -40,19 +43,41 @@ public class Event {
 	@Size (min = 2, message = "The state location must be 2 characters in length.")
 	private String eventstate;
 	
+	@NonNull
+	private String eventdescription;
+	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="person_id")
 	private Person person;
 	
 
-//	@ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(
-//    	name = "persons_events",
-//    	joinColumns = @JoinColumn(name = "event_id"),
-//    	inverseJoinColumns = @JoinColumn(name = "person_id")
-//    	)
-//	private List<Person> persons;
-//	
+	@ManyToMany(fetch = FetchType.LAZY)
+		@JoinTable(
+		name = "persons_events",
+		joinColumns = @JoinColumn(name = "event_id"),
+		inverseJoinColumns = @JoinColumn(name = "person_id")
+		)
+	private List<Person> persons;
+	
+	
+	@OneToMany (mappedBy="event", fetch = FetchType.LAZY)
+	private List<Discussion> discussions;
+	
+	
+	
+	
+	
+	public List<Discussion> getDiscussions() {
+		return discussions;
+	}
+
+	public void setDiscussions(List<Discussion> discussions) {
+		this.discussions = discussions;
+	}
+
+	
+	
 	
 	public Event () {
 		
@@ -62,9 +87,9 @@ public class Event {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
 
 	public String getEventcity() {
 		return eventcity;
@@ -82,13 +107,13 @@ public class Event {
 		this.eventstate = eventstate;
 	}
 
-//	public List<Person> getPeople() {
-//		return persons;
-//	}
-//
-//	public void setPeople(List<Person> persons) {
-//		this.persons = persons;
-//	}
+	public List<Person> getPeople() {
+		return persons;
+	}
+
+	public void setPeople(List<Person> persons) {
+		this.persons = persons;
+	}
 	
 	public String getEventname() {
 		return eventname;
@@ -98,13 +123,13 @@ public class Event {
 		this.eventname = eventname;
 	}
 
-//	public List<Person> getPersons() {
-//		return persons;
-//	}
-//
-//	public void setPersons(List<Person> persons) {
-//		this.persons = persons;
-//	}
+	public List<Person> getPersons() {
+		return persons;
+	}
+
+	public void setPersons(List<Person> persons) {
+		this.persons = persons;
+	}
 
 	public Date getEventdate() {
 		return eventdate;
@@ -121,6 +146,18 @@ public class Event {
 
 	public void setPerson(Person person) {
 		this.person = person;
+	}
+	
+	public String getEventdescription() {
+		return eventdescription;
+	}
+
+	public void setEventdescription(String eventdescription) {
+		this.eventdescription = eventdescription;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

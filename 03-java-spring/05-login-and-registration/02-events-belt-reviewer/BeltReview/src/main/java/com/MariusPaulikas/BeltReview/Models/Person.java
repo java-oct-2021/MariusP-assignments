@@ -60,13 +60,15 @@ public class Person {
 	private List<Event> createdevent;
 	
 
-//	@ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(
-//    	name = "persons_events",
-//    	joinColumns = @JoinColumn(name = "person_id"),
-//    	inverseJoinColumns = @JoinColumn(name = "event_id")
-//    	)
-//	private List<Event> events;
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+    	name = "persons_events",
+    	joinColumns = @JoinColumn(name = "person_id"),
+    	inverseJoinColumns = @JoinColumn(name = "event_id")
+    	)
+	private List<Event> events;
+	
+	
 	
 	
 	public Person () {
@@ -154,14 +156,14 @@ public class Person {
 	}
 
 
-//	public List<Event> getEvents() {
-//		return events;
-//	}
-//
-//
-//	public void setEvents(List<Event> events) {
-//		this.events = events;
-//	}
+	public List<Event> getEvents() {
+		return events;
+	}
+
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
 
 	
 	public List<Event> getCreatedevent() {
