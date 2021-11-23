@@ -31,7 +31,7 @@
 	    <tbody>
 	        <tr>
 	        <c:forEach items="${question.answers}" var="answer">
-	            <td><c:out value="${answer.answer}"/></td>
+	            <td><a href = "/answertest/${answer.id}"><c:out value="${answer.answer}"/></a></td>
 	        </c:forEach>
 	        </tr>
 	    </tbody>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 import com.MariusPaulikas.DojoOverflow.Models.Answers;
 import com.MariusPaulikas.DojoOverflow.Models.Questions;
@@ -23,9 +24,16 @@ import com.MariusPaulikas.DojoOverflow.Services.AnswerService;
 import com.MariusPaulikas.DojoOverflow.Services.QuestionService;
 import com.MariusPaulikas.DojoOverflow.Services.TagService;
 
+import com.MariusPaulikas.DojoOverflow.Models.People;
+import com.MariusPaulikas.DojoOverflow.Models.Character;
 
 @Controller
 public class DojoOverflowController {
+	
+	private String baseURL = "https://swapi.dev/api";
+
+	@Autowired
+	RestTemplate restTemplate;
 
 	@Autowired
 	private AnswerService answerservice;
@@ -38,7 +46,9 @@ public class DojoOverflowController {
 	
 	
 	@RequestMapping("/questions/new")
-	public String Home(@ModelAttribute("newquestion") Questions question, Tags tag) {
+	public String Home(@ModelAttribute("newquestion") Questions question, Tags tag, Model model) {
+		People people = restTemplate.getForObject(this.baseURL + "/people", People.class);
+		model.addAttribute("characters", people.getResults());
 		return "questionsnew.jsp";
 	}
 	
@@ -109,5 +119,16 @@ public class DojoOverflowController {
 		return "redirect:/questions/" + id;
 		}
 	}
+	
+	
+	@RequestMapping("/answertest/{id}")
+	public String AnswerTest(@PathVariable("id") Long id, Model model) {
+		List<Answers> answertest = answerservice.getAnswerById(id);
+		model.addAttribute("answertest", answertest);
+		return "answertest.jsp";
+		
+		
+	}
+	
 	
 }

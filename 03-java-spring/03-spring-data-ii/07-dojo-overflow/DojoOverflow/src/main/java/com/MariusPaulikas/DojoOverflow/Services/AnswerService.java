@@ -25,6 +25,11 @@ public class AnswerService {
 	
 	}
 	
+	public List<Answers> getAnswerById(Long id) {
+		return answerrepository.getAnswersWhereId(id);
+	}
+	
+	
 	public Answers createAnswer (Answers a) {
 		return answerrepository.save(a);
 	}

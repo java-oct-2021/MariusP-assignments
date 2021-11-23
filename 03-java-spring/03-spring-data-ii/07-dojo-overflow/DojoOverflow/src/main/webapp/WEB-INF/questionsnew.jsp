@@ -12,6 +12,7 @@
 <meta charset="ISO-8859-1">
 <title>New Question</title>
 <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+
 </head>
 
 <body>
@@ -39,7 +40,22 @@
 	    <button type="submit" class = "btn btn-primary" value="Submit">Submit</button>
 	</form:form>
 	    <br>
-	    
+	    <br>
+	    <h3>Random testing of the importation of a Star Wars API:</h3>
+	    <div id="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col-6">
+				<form action="/character" method="GET">
+					<select class="form-control" name="id">
+						<c:forEach var="character" items="${characters}" varStatus="loop">
+							<option value="${loop.index + 1}">${character.name}</option>
+						</c:forEach>
+					</select>
+					<button class="btn btn-success">Get Character</button>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 </body>
 </html>
